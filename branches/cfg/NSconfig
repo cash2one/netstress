@@ -1,0 +1,108 @@
+comment "NetStress Configuration ---"
+comment "---------------------------"
+
+menu "Select your attacks"
+	config SYN_FLOOD
+	bool "SYN Flood"
+	default y
+
+	config ISSSYN_FLOOD
+	bool "ISSSYN Flood"
+	default y
+
+	config FIN_FLOOD
+	bool "FIN Flood"
+	default y
+
+	config ACK_FLOOD
+	bool "ACK Flood"
+	default y
+
+	config PUSH_FLOOD
+	bool "PUSH Flood"
+	default y
+
+	config UDP_FLOOD
+	bool "UDP Flood"
+	default y
+
+	config IGMP_FLOOD
+	bool "IGMP Flood"
+	default y
+
+	config WIN98_FLOOD
+	bool "WINDOWS 98 Flood"
+	default y
+
+	config WINBOMB_FLOOD
+	bool "WINDOWS Bug Flood"
+	default y
+
+	config HTTP_GET_FLOOD
+	bool "HTTP GET Flood"
+	default y
+
+	config HTTP_POST_FLOOD
+	bool "HTTP POST Flood"
+	default y
+
+	config SYNCOOK_FLOOD
+	bool "By-pass SYN Cookie"
+	default y
+	help
+		Run "iptables -A OUTPUT -p tcp -m tcp --tcp-flags RST RST -j DROP"
+		command before by-passing syn cookie.
+
+	config DNS_FLOOD
+	bool "DNS Flood"
+	default y
+
+	config AMPDNS_FLOOD
+	bool "Amplified DNS Flood"
+	default y
+	help
+		Write the DNS server IP addresses to "dns.list" file.
+endmenu
+
+choice
+prompt "Source IP type"
+default RANDOM_SRC_IP
+	config STATIC_SRC_IP
+	bool "Static"
+
+	config RANDOM_SRC_IP
+	bool "Random"
+
+	config PATTERN_SRC_IP
+	bool "Pattern"
+	help
+		Write the pattern like "77.73." format.
+
+	config RANDOM_COUNTRY_SRC_IP
+	bool "Country Based"
+	help
+		Write the country IP addresses to "country_ip.txt" file.
+endchoice
+
+config RANDOM_SRC_PORT
+	bool "Random Source Port"
+	default n
+
+config RANDOM_DST_PORT
+	bool "Random Destination Port"
+	default n
+
+comment "HTTP GET Flood Related Settings"
+config HTTP_GET_HOST
+	string "Host field of the GET packet"
+	default "127.0.0.1:80"
+
+config RANDOM_URL
+	bool "Request Random URLs"
+	default y
+
+config STATIC_URL
+	string "Request a Static URL"
+	depends on !RANDOM_URL
+	default "/"
+comment "End of HTTP GET Flood Settings"
